@@ -50,11 +50,11 @@ lr = {
     'warmup_steps': 10000,
 }
 
-bos_token_id =101
+bos_token_id = 101
 eos_token_id = 102
 
-model_dir= "./models"
-run_mode= "train_and_evaluate"
+model_dir = "./models"
+run_mode = "train_and_evaluate"
 batch_size = 1
 eval_batch_size = 1
 
@@ -69,23 +69,23 @@ max_decoding_length = 400
 max_seq_length_src = 512
 max_seq_length_tgt = 400
 
-epochs =10
+epochs = 10
 
 is_distributed = False
 
-
 data_dir = "data/"
+src_data_dir = "../data/Newsroom"
 
-train_out_file = "data/train.tf_record"
-eval_out_file = "data/eval.tf_record"
+# train_out_file = "data/train.tf_record"
+# eval_out_file = "data/eval.tf_record"
 
-bert_pretrain_dir="./bert_uncased_model"
+bert_pretrain_dir = "./bert_uncased_model"
 
-train_story = "data/train_story.txt"
-train_summ = "data/train_summ.txt"
+# train_story = "data/train_story.txt"
+# train_summ = "data/train_summ.txt"
+#
+# eval_story = "data/eval_story.txt"
+# eval_summ = "data/eval_summ.txt"
 
-eval_story = "data/eval_story.txt"
-eval_summ = "data/eval_summ.txt"
-
-bert_pretrain_dir = "./uncased_L-12_H-768_A-12"
+bert_pretrain_dir = "./models/uncased_L-12_H-768_A-12"
 
