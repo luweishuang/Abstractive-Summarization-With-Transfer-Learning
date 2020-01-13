@@ -76,8 +76,8 @@ is_distributed = False
 data_dir = "data/"
 src_data_dir = "../data/Newsroom"
 
-# train_out_file = "data/train.tf_record"
-# eval_out_file = "data/eval.tf_record"
+train_out_file = "data/train.tf_record"
+eval_out_file = "data/eval.tf_record"
 
 bert_pretrain_dir = "./bert_uncased_model"
 
