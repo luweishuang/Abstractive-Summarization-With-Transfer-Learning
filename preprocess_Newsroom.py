@@ -373,5 +373,5 @@ if __name__ == "__main__":
 
     vocab_size = len(tokenizer.vocab)
 
-    # train_dataset = newsroom_2_tfrecoder(tokenizer, data_dir, max_seq_length_src, max_seq_length_tgt, batch_size, 'train', data_dir)
-    eval_dataset =  newsroom_2_tfrecoder(tokenizer, data_dir, max_seq_length_src, max_seq_length_tgt, eval_batch_size, 'test', data_dir)
+    train_dataset = newsroom_2_tfrecoder(tokenizer, data_dir, max_seq_length_src, max_seq_length_tgt, batch_size, 'train', data_dir)
+    eval_dataset =  newsroom_2_tfrecoder(tokenizer, data_dir, max_seq_length_src, max_seq_length_tgt, eval_batch_size, 'dev', data_dir)
