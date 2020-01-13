@@ -347,6 +347,9 @@ def newsroom_2_tfrecoder(
                 is_distributed=False):
     src_file = os.path.join(src_data_dir, "%s.label.info.jsonl" % mode)
     output_file = os.path.join(output_dir, "%s.tf_record" % mode)
+    if os.path.exists(output_file):
+        print("%s already exist!" % output_file)
+        return
     process(mode, src_file, output_file)
     if mode == 'train':
         dataset = file_based_input_fn_builder(
@@ -356,7 +359,7 @@ def newsroom_2_tfrecoder(
             is_training=True,
             drop_remainder=True,
             is_distributed=is_distributed)({'batch_size': batch_size})
-    elif mode == 'eval':
+    elif mode == 'dev':
         dataset = file_based_input_fn_builder(
             input_file=output_file,
             max_seq_length_src=max_seq_length_src,
@@ -382,5 +385,5 @@ if __name__ == "__main__":
 
     vocab_size = len(tokenizer.vocab)
 
-    train_dataset = newsroom_2_tfrecoder(tokenizer, data_dir, max_seq_length_src, max_seq_length_tgt, batch_size, 'train', data_dir)
-    eval_dataset =  newsroom_2_tfrecoder(tokenizer, data_dir, max_seq_length_src, max_seq_length_tgt, eval_batch_size, 'eval', data_dir)
+    # train_dataset = newsroom_2_tfrecoder(tokenizer, data_dir, max_seq_length_src, max_seq_length_tgt, batch_size, 'train', data_dir)
+    eval_dataset =  newsroom_2_tfrecoder(tokenizer, data_dir, max_seq_length_src, max_seq_length_tgt, eval_batch_size, 'dev', data_dir)
