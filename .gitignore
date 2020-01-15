@@ -4,4 +4,6 @@ models/uncased_L-12_H-768_A-12.zip
 data/dev.tf_record
 data/train.tf_record
 data/test.tf_record
+__pycache__/
+src/
 

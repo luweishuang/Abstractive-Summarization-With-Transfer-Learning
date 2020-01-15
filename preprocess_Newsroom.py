@@ -9,6 +9,7 @@ import os
 import csv
 import jsonlines
 import collections
+from newsroom import jsonl
 
 class InputExample():
     """A single training/test example for simple sequence classification."""
@@ -301,19 +302,15 @@ def file_based_input_fn_builder(input_file, max_seq_length_src,max_seq_length_tg
 def process(mode, tokenizer, src_file, output_file):
     writer = tf.python_io.TFRecordWriter(output_file)
     index = -1
-    with open(src_file, "r+", encoding="utf8") as f:
-        for item in jsonlines.Reader(f):
+    with jsonl.open(src_file, gzip=True) as fr:
+        for item in fr:
             index += 1
-            summary_list = item.get("summary", [])
-            text_list = item.get("text", [])
-            summary_str = "".join(summary_list)
-            content_str = "".join(text_list)
+            summary_str = item["summary"].strip()
+            content_str = item["text"].strip()
 
             pos = summary_str.find("<?xml:")
             if pos >= 0:
                 continue
-            summary_str = summary_str.replace("\n", ".").strip()
-            content_str = content_str.replace("\n", ".").strip()
             guid = "%s-%s" % (mode, index)
             if mode == "test" and index == 0:
                 continue
@@ -326,14 +323,13 @@ def process(mode, tokenizer, src_file, output_file):
 
 def newsroom_2_tfrecoder(
                 tokenizer,
-                data_dir,
                 max_seq_length_src,
                 max_seq_length_tgt,
                 batch_size,
                 mode,
                 output_dir,
                 is_distributed=False):
-    src_file = os.path.join(src_data_dir, "%s.label.info.jsonl" % mode)
+    src_file = os.path.join(src_data_dir, "%s.jsonl.gz" % mode)
     output_file = os.path.join(output_dir, "%s.tf_record" % mode)
     if os.path.exists(output_file):
         print("%s already exist!" % output_file)
@@ -373,5 +369,5 @@ if __name__ == "__main__":
 
     vocab_size = len(tokenizer.vocab)
 
-    train_dataset = newsroom_2_tfrecoder(tokenizer, data_dir, max_seq_length_src, max_seq_length_tgt, batch_size, 'train', data_dir)
-    eval_dataset =  newsroom_2_tfrecoder(tokenizer, data_dir, max_seq_length_src, max_seq_length_tgt, eval_batch_size, 'dev', data_dir)
+    train_dataset = newsroom_2_tfrecoder(tokenizer, max_seq_length_src, max_seq_length_tgt, batch_size, 'train', data_dir)
+    eval_dataset =  newsroom_2_tfrecoder(tokenizer, max_seq_length_src, max_seq_length_tgt, eval_batch_size, 'dev', data_dir)
