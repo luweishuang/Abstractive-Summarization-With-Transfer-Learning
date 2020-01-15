@@ -4,7 +4,7 @@ if not 'texar_repo' in sys.path:
   sys.path += ['texar_repo']
 
 from config import *
-from preprocess import file_based_input_fn_builder
+from preprocess_Newsroom import file_based_input_fn_builder
 import os
 import csv
 import collections
